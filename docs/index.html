@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yank - TUI File Copier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic body styling */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Add a subtle gradient background */
+        .gradient-bg {
+            background: linear-gradient(to bottom right, #f3f4f6, #e5e7eb);
+        }
+        /* Style for code blocks */
+        pre code {
+            display: block;
+            white-space: pre-wrap;
+            word-break: break-word;
+            background-color: #1f2937; /* Dark background for code */
+            color: #d1d5db; /* Light text for code */
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            font-family: 'monospace';
+            font-size: 0.875rem;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+        /* Style for inline code */
+        code:not(pre code) {
+            background-color: #e5e7eb;
+            color: #374151;
+            padding: 0.15em 0.4em;
+            border-radius: 0.25rem;
+            font-size: 0.9em;
+            font-family: 'monospace'; /* Ensure monospace for inline code */
+        }
+        /* Custom styles for feature list */
+        .feature-item::before {
+            content: '✓';
+            color: #10b981; /* Emerald green checkmark */
+            margin-right: 0.75rem;
+            font-weight: bold;
+        }
+        /* Keybinding table styling */
+        .keybind-table th, .keybind-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb; /* Light border */
+        }
+        .keybind-table th {
+            background-color: #f9fafb; /* Very light grey for header */
+            font-weight: 600;
+            color: #374151;
+        }
+        .keybind-table td code {
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="gradient-bg text-gray-800 antialiased">
+
+    <header class="bg-white shadow-md">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-gray-900">Yank</h1>
+            <div>
+                <a href="https://github.com/lian/yank" target="_blank" rel="noopener noreferrer" class="bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+                    View on GitHub
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="container mx-auto px-6 py-16 text-center">
+        <h2 class="text-4xl font-bold mb-4 text-gray-900">Yank: Interactive File Copying in Your Terminal</h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
+            A TUI utility to recursively scan directories, interactively select files, and copy their content & metadata to the clipboard. Features fuzzy filtering and persistent selections.
+        </p>
+        <a href="https://github.com/lian/yank#installation" target="_blank" rel="noopener noreferrer" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 text-lg mr-2">
+            Get Started
+        </a>
+        <a href="https://github.com/lian/yank" target="_blank" rel="noopener noreferrer" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-lg transition duration-300 text-lg">
+            Learn More (Repo)
+        </a>
+    </section>
+
+    <section class="bg-white py-16 px-6">
+        <div class="container mx-auto max-w-5xl">
+            <h3 class="text-3xl font-bold text-center mb-12 text-gray-900">Features</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-lg shadow">
+                    <h4 class="font-semibold text-lg mb-2 feature-item">Interactive TUI</h4>
+                    <p class="text-gray-600 text-sm">Easy file selection via a terminal interface powered by Bubble Tea.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg shadow">
+                    <h4 class="font-semibold text-lg mb-2 feature-item">Fuzzy Filtering</h4>
+                    <p class="text-gray-600 text-sm">Quickly find files with built-in fuzzy searching.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg shadow">
+                    <h4 class="font-semibold text-lg mb-2 feature-item">Persistence</h4>
+                    <p class="text-gray-600 text-sm">Remembers your selections per directory in a <code>.yank</code> file.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg shadow">
+                    <h4 class="font-semibold text-lg mb-2 feature-item">Rich Clipboard Content</h4>
+                    <p class="text-gray-600 text-sm">Copies file content along with path, modification time, and size.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg shadow">
+                    <h4 class="font-semibold text-lg mb-2 feature-item">Cross-Platform</h4>
+                    <p class="text-gray-600 text-sm">Supports macOS, Linux (xclip/xsel), and Windows.</p>
+                </div>
+                 <div class="bg-gray-50 p-6 rounded-lg shadow">
+                    <h4 class="font-semibold text-lg mb-2 feature-item">Recursive & Smart</h4>
+                    <p class="text-gray-600 text-sm">Scans subdirectories, ignores <code>.git</code>, handles hidden files.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-6 gradient-bg">
+        <div class="container mx-auto max-w-4xl">
+            <h3 class="text-3xl font-bold text-center mb-8 text-gray-900">Quick Example</h3>
+            <p class="text-center text-gray-600 mb-8">Run <code>yank</code> in your project directory:</p>
+            <pre><code class="language-bash">
+# Scan the current directory
+yank
+
+# Or specify a directory
+yank -dir ./my-project
+            </code></pre>
+            <p class="text-center text-gray-600 mt-8">
+                Use arrow keys (or <code>j</code>/<code>k</code>) to navigate, <code>space</code>/<code>m</code> to select, <code>/</code> to filter, and <code>enter</code>/<code>y</code> to copy & quit.
+            </p>
+        </div>
+    </section>
+
+    <section class="bg-white py-16 px-6">
+        <div class="container mx-auto max-w-4xl">
+            <h3 class="text-3xl font-bold text-center mb-12 text-gray-900">Keybindings</h3>
+
+            <div class="mb-10">
+                <h4 class="text-2xl font-semibold mb-4 text-center text-gray-800">Normal Mode</h4>
+                <div class="overflow-x-auto shadow-md rounded-lg">
+                    <table class="min-w-full keybind-table">
+                        <thead>
+                            <tr>
+                                <th>Key(s)</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white">
+                            <tr>
+                                <td><code>j</code>, <code>k</code>, <code>↓</code>, <code>↑</code></td>
+                                <td>Move cursor up/down.</td>
+                            </tr>
+                            <tr>
+                                <td><code>space</code>, <code>m</code></td>
+                                <td>Toggle selection for the focused file/path.</td>
+                            </tr>
+                            <tr>
+                                <td><code>c</code>, <code>C</code></td>
+                                <td>Clear all selected files.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.</code></td>
+                                <td>Toggle visibility of hidden files/directories (starting with <code>.</code>). Selected hidden items remain visible.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/</code></td>
+                                <td>Enter filter mode (fuzzy search).</td>
+                            </tr>
+                            <tr>
+                                <td><code>y</code>, <code>enter</code></td>
+                                <td>Confirm selection, copy data to clipboard, save selection, and quit.</td>
+                            </tr>
+                            <tr>
+                                <td><code>q</code>, <code>ctrl+c</code>, <code>ctrl+q</code></td>
+                                <td>Quit without copying or saving.</td>
+                            </tr>
+                            <tr>
+                                <td><code>?</code></td>
+                                <td>Show/hide the full help view (includes keys like PgUp/PgDn).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-2xl font-semibold mb-4 text-center text-gray-800">Filter Mode (after pressing <code>/</code>)</h4>
+                 <div class="overflow-x-auto shadow-md rounded-lg">
+                    <table class="min-w-full keybind-table">
+                        <thead>
+                            <tr>
+                                <th>Key(s)</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                         <tbody class="bg-white">
+                            <tr>
+                                <td><em>(type text)</em></td>
+                                <td>Enter text to fuzzy filter the list.</td>
+                            </tr>
+                            <tr>
+                                <td><code>esc</code></td>
+                                <td>Exit filter mode and clear the current filter.</td>
+                            </tr>
+                            <tr>
+                                <td><code>ctrl+j</code></td>
+                                <td>Move cursor down within the filtered list.</td>
+                            </tr>
+                             <tr>
+                                <td><code>ctrl+k</code></td>
+                                <td>Move cursor up within the filtered list.</td>
+                            </tr>
+                            <tr>
+                                <td><code>ctrl+m</code></td>
+                                <td>Toggle selection for the focused file (works on the underlying overall selection).</td>
+                            </tr>
+                             <tr>
+                                <td><code>backspace</code></td>
+                                <td>Delete the last character from the filter query.</td>
+                            </tr>
+                            <tr>
+                                <td><code>y</code>, <code>enter</code></td>
+                                <td>Confirm selection (uses *all* selected files), copy, save, and quit.</td>
+                            </tr>
+                            <tr>
+                                <td><code>q</code>, <code>ctrl+c</code></td>
+                                <td>Quit without copying or saving.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-gray-300 py-8 px-6">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 lian / yank </p>
+            <p class="mt-1 text-sm">
+                <a href="https://github.com/lian/yank" target="_blank" rel="noopener noreferrer" class="hover:underline">Source Code on GitHub</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
